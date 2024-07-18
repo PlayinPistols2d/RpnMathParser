@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>900</width>
+    <height>400</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>MainWindow</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <layout class="QVBoxLayout" name="verticalLayout">
+    <item>
+     <widget class="QLabel" name="lb_expression">
+      <property name="font">
+       <font>
+        <pointsize>16</pointsize>
+        <bold>true</bold>
+       </font>
+      </property>
+      <property name="text">
+       <string>Expression:</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QLineEdit" name="le_expression">
+      <property name="font">
+       <font>
+        <family>Segoe UI</family>
+        <pointsize>14</pointsize>
+        <bold>false</bold>
+       </font>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QLabel" name="lb_result">
+      <property name="font">
+       <font>
+        <pointsize>16</pointsize>
+        <bold>true</bold>
+       </font>
+      </property>
+      <property name="text">
+       <string>Result:</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QLineEdit" name="le_result">
+      <property name="font">
+       <font>
+        <pointsize>14</pointsize>
+        <bold>false</bold>
+       </font>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QLabel" name="label_3">
+      <property name="font">
+       <font>
+        <pointsize>16</pointsize>
+        <bold>true</bold>
+       </font>
+      </property>
+      <property name="text">
+       <string>Log:</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QTextEdit" name="te_log">
+      <property name="font">
+       <font>
+        <pointsize>14</pointsize>
+        <bold>true</bold>
+       </font>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QPushButton" name="pb_calculate">
+      <property name="font">
+       <font>
+        <pointsize>16</pointsize>
+        <bold>true</bold>
+       </font>
+      </property>
+      <property name="text">
+       <string>Calculate</string>
+      </property>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
