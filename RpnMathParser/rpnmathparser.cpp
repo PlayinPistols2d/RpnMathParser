@@ -192,7 +192,7 @@ bool MathParserModel::checkCorrectParentheses() {
     // Check for empty parentheses or mismatched parentheses
     for(int i = 0; i < size; i++) {
         if(input[i] == '(' && input[i + 1] == ')') {
-            QString error = "Error! Missing function argument! Location between: " + QString::number(i) + " and " + QString::number(i + 1);
+            QString error = "Error! Missing function argument! Location between: " + QString::number(i+1) + " and " + QString::number(i + 2);
             *errorString = error;
             return false;
         } else if(input[i] == '(') {
@@ -240,7 +240,7 @@ bool MathParserModel::checkOperatorAndOperandsOrder(const bool isCheckingInsideF
         } else {
             QString bufMsg = *errorString;
             if (bufMsg.isEmpty()) {
-                QString error = "Error: The input contains incorrect symbols or is incorrectly composed! Position";
+                QString error = "Error: The input contains incorrect symbols or is incorrectly composed! Position: " + QString::number(currentIndex + 1);
                 *errorString = error;
             }
             return false;
@@ -272,7 +272,7 @@ bool MathParserModel::isOperator() {
     if(isSign()) {
         return true;
     }
-    if(input[currentIndex] == '*' || input[currentIndex] == '/' || input[currentIndex] == '^') {
+    if(input[currentIndex] == '*' || input[currentIndex] == '/' || input[currentIndex] == '^' || input[currentIndex] == '%' ) {
         currentIndex++;  // Move to the next character
         return true;
     }
@@ -290,7 +290,7 @@ bool MathParserModel::isNumber() {
         // Loop through the characters while they form a valid number
         while((input[currentIndex] >= '0' && input[currentIndex] <= '9') || input[currentIndex] == '.') {
             if(input[currentIndex] == '.' && (input[currentIndex+1] > '9' || input[currentIndex+1] < '0' || was_dot)) {
-                QString error = "Error! The expression contains a number with incorrect symbols after the dot! Location: " + QString::number(currentIndex+1);
+                QString error = "Error! The expression contains a number with incorrect symbols after the dot! Location: " + QString::number(currentIndex + 1);
                 *errorString = error;
                 return false;
             }
@@ -354,7 +354,7 @@ bool MathParserModel::checkExponentionalForm() {
         }
         // Check for digits after the exponent symbol
         if (input[currentIndex] < '0' || input[currentIndex] > '9') {
-            QString error = "Error! Invalid exponential form! Location: " + QString::number(currentIndex+1) + "!";
+            QString error = "Error! Invalid exponential form! Location: " + QString::number(currentIndex + 1);
             *errorString = error;
             return false;
         }
@@ -380,11 +380,24 @@ void MathParserModel::parseStringIntoLexemes() {
 
     // Loop through the input string and add tokens to the lexeme list
     while (input[currentIndex]) {
-        if ((input[currentIndex] >= '0' && input[currentIndex] <= '9') || input[currentIndex] == 'x' || input[currentIndex] == 'e' || input[currentIndex] == 'E') {
+        if ((input[currentIndex] >= '0' && input[currentIndex] <= '9') ||
+            input[currentIndex] == 'x' ||
+            input[currentIndex] == 'e' ||
+            input[currentIndex] == 'E') {
             addNumberToList();
-        } else if (input[currentIndex] == '+' || input[currentIndex] == '-' || input[currentIndex] == '*' || input[currentIndex] == '/' || input[currentIndex] == '^') {
+        } else if (input[currentIndex] == '+'
+                   || input[currentIndex] == '-'
+                   || input[currentIndex] == '*'
+                   || input[currentIndex] == '/'
+                   || input[currentIndex] == '%'
+                   || input[currentIndex] == '^') {
             addOperatorToList(unarySignFlag, firstSignFlag);
-        } else if (input[currentIndex] == 'a' || input[currentIndex] == 's' || input[currentIndex] == 'l' || input[currentIndex] == 't' || input[currentIndex] == 'c' || input[currentIndex] == 'm') {
+        } else if (input[currentIndex] == 'a'
+                   || input[currentIndex] == 's'
+                   || input[currentIndex] == 'l'
+                   || input[currentIndex] == 't'
+                   || input[currentIndex] == 'c'
+                   || input[currentIndex] == 'm') {
             addFunctionToList();
         } else if (input[currentIndex] == '(' || input[currentIndex] == ')') {
             addParenthesesToList(unarySignFlag);
@@ -434,6 +447,8 @@ void MathParserModel::addOperatorToList(bool &unarySignFlag, bool &firstSignFlag
         lexemesList.emplace_back(0, 2, mult);
     } else if (input[currentIndex] == '/') {
         lexemesList.emplace_back(0, 2, division);
+    } else if (input[currentIndex] == '%') {
+        lexemesList.emplace_back(0, 2, mod_t);
     } else if (input[currentIndex] == '^') {
         lexemesList.emplace_back(0, 3, pow_t);
     }
@@ -637,6 +652,8 @@ double MathParserModel::calculateTwoOperators(lexeme operand1, lexeme operand2, 
         return_value += operand1.value * operand2.value;
     } else if (operation.type == division) {
         return_value += operand1.value / operand2.value;
+    } else if (operation.type == mod_t) {
+        return_value += fmod(operand1.value, operand2.value);
     } else if (operation.type == pow_t) {
         return_value += pow(operand1.value, operand2.value);
     }
