@@ -22,7 +22,7 @@ void MainWindow::on_pb_calculate_clicked()
 {
     QString err;
     ui->te_log->clear();
-    ui->le_result->setText(QString::number(RpnMathParser::parseString(ui->le_expression->text(), err)));
+    ui->le_result->setText(QString::number(RpnMathParser::parseString(ui->le_expression->text(), err), 'g', precision));
     ui->te_log->append(err);
 
     QRegExp rx("\\d+");
