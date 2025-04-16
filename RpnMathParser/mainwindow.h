@@ -21,6 +21,6 @@ private slots:
 private:
     Ui::MainWindow *ui;
     //visual precision
-    unsigned it precision = 14;
+    unsigned int precision = 14;
 };
 #endif // MAINWINDOW_H
