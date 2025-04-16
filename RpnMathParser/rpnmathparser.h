@@ -11,9 +11,9 @@ class MathParserModel;
  * \brief A class - controller providing functionality for parsing mathematical expressions
  *
  * \details
- * Supported operators: +, -, *, /, ^, (, )
+ * Supported operators: +, -, *, /, %, ^, (, )
  * Supported functions: sin, cos, tan, ln, log, sqrt, abs, sqr
- * Test example: ((abs(-(cos(1) / (2^2 - (-0.5) * (sqrt(2)))) / ln(10) + (2^2 * sin(1)) - 1.234e-3)) + (tan(1)))
+ * Test example: ((abs(-(cos(1) / (2^2 - (-0.5) * (sqrt(2)))) / ln(10) + (2^2 * sin(1)) - 1.234e-3)) + (tan(1))) % 2
  * \warning Google calculator considers sqr(x) to be sqrt(x), although sqr means square (x^2), while sqrt means square root (√x)!
  */
 class MathParserController {
